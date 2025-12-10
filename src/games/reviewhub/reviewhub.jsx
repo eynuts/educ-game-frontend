@@ -55,7 +55,7 @@ const ReviewHub = ({ onBack, user, logout }) => {
 
   const fetchAverageScore = async (exam, topicId) => {
     try {
-      const res = await fetch(`http://educ-game.onrender.com/api/reviewhub/average-score?exam=${encodeURIComponent(exam)}&topicId=${topicId}`);
+      const res = await fetch(`https://educ-game.onrender.com/api/reviewhub/average-score?exam=${encodeURIComponent(exam)}&topicId=${topicId}`);
       const data = await res.json();
       return data.average || 0;
     } catch (err) {
@@ -66,7 +66,7 @@ const ReviewHub = ({ onBack, user, logout }) => {
 
   const fetchDashboardStats = async () => {
     try {
-      const res = await fetch(`http://educ-game.onrender.com/api/reviewhub/dashboard-stats?exam=${encodeURIComponent(examPreference)}`);
+      const res = await fetch(`https://educ-game.onrender.com/api/reviewhub/dashboard-stats?exam=${encodeURIComponent(examPreference)}`);
       const data = await res.json();
       setDashboardStats({
         topicsCompleted: data.topicsCompleted || 0,
@@ -82,7 +82,7 @@ const ReviewHub = ({ onBack, user, logout }) => {
     setLoading(true);
     setCurrentTopic(topic);
     try {
-      const response = await fetch("http://educ-game.onrender.com/api/reviewhub/generate", {
+      const response = await fetch("https://educ-game.onrender.com/api/reviewhub/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -105,7 +105,7 @@ const ReviewHub = ({ onBack, user, logout }) => {
   const handleQuizFinish = async (score, maxScore) => {
     if (!currentTopic) return;
     try {
-      await fetch("http://educ-game.onrender.com/api/reviewhub/save-score", {
+      await fetch("https://educ-game.onrender.com/api/reviewhub/save-score", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
