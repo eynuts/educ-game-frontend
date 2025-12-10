@@ -1,0 +1,432 @@
+/* ---------------------------------------------
+    1. CSS Variables (Custom Properties) - REFINED PALETTE
+--------------------------------------------- */
+:root {
+  /* Colors */
+  --primary-color: #007bff;
+  --secondary-color: #6c757d;
+  --text-dark: #212529;
+  --text-light: #6f747d; /* Softer text for body/subtitle */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f3f6fb; /* Lighter background for cleaner gradient start */
+
+  /* Accents */
+  --accent-cyan-bg: #e0f7fa;
+  --accent-cyan-text: #00bcd4;
+  --hover-bg: #f1f3f4;
+
+  /* Shadows - Adjusted for modern, softer lift */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05); /* Lighter shadow for Navbar */
+  --shadow-md: 0 12px 30px rgba(0, 0, 0, 0.08); /* Stronger default card lift */
+  --shadow-hover: 0 18px 45px rgba(0, 0, 0, 0.15); /* Maximum hover lift */
+
+  /* Spacing */
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 20px;
+  --spacing-lg: 40px;
+  --border-radius: 12px;
+
+  /* Animation timing */
+  --fast: 0.15s ease;
+  --normal: 0.3s ease;
+}
+
+/* ---------------------------------------------
+    Global Reset (SAFE VERSION)
+--------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Base Layout Fix */
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  background: var(--bg-secondary);
+  overflow-x: hidden;
+}
+
+/* 2. Root Fix for React */
+#root, #app {
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+}
+
+/* ---------------------------------------------
+    2. Home Container (Background)
+--------------------------------------------- */
+.home-container {
+  color: var(--text-dark);
+  background: linear-gradient(to bottom right, var(--bg-secondary) 10%, #e0efff 100%);
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* ---------------------------------------------
+    3. Full-Width Sticky Navbar (Slim & Modern)
+--------------------------------------------- */
+.navbar {
+  width: 100%;
+  height: 56px;
+  background-color: var(--bg-primary);
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+  display: flex;
+  justify-content: center; /* KEY FIX 1: Center the inner content horizontally */
+  align-items: center;
+  padding: 0; /* KEY FIX 2: Remove the padding from the outer container */
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.navbar:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.navbar-inner {
+  width: 100%;
+  max-width: 1200px;
+  
+  margin: 0 auto; /* KEY FIX 3: Ensures the 1200px block is centered *within* the navbar */
+  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+  /* KEY FIX 4: Add padding to the inner container for space from the edges on smaller screens */
+  padding: 0 16px; 
+}
+
+/* Logo container */
+.logo {
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s ease;
+}
+
+/* Logo image */
+.logo-img {
+  height: 36px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+  transition: transform 0.2s ease;
+}
+
+.logo:hover .logo-img {
+  transform: scale(1.05);
+}
+
+/* Nav Icons */
+.nav-icons {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+/* User initials */
+.user-initials {
+  background-color: var(--accent-cyan-bg);
+  color: var(--accent-cyan-text);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.user-initials:hover {
+  border: 2px solid var(--primary-color);
+  transform: scale(1.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Icons */
+.icon {
+  font-size: 0.95rem;
+  color: var(--secondary-color);
+  cursor: pointer;
+  padding: 3px;
+  border-radius: 6px;
+  transition: all 0.25s ease;
+}
+
+.icon:hover {
+  color: var(--primary-color);
+  background-color: var(--hover-bg);
+  transform: scale(1.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* ---------------------------------------------
+    4. Main Content (Typography)
+--------------------------------------------- */
+.main-content {
+  padding: var(--spacing-lg) var(--spacing-md);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.welcome-message {
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--text-dark);
+  margin-bottom: var(--spacing-sm);
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+}
+
+.instruction-text {
+  font-size: 1.1rem;
+  color: var(--text-light);
+  margin-bottom: var(--spacing-lg);
+  line-height: 1.6;
+}
+
+/* ---------------------------------------------
+    5. Tool Cards Grid
+--------------------------------------------- */
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(clamp(250px, 30%, 350px), 1fr));
+  gap: 30px;
+}
+
+.tool-card {
+  background: var(--bg-primary);
+  border-radius: var(--border-radius);
+  padding: 30px;
+  box-shadow: var(--shadow-md);
+  transition: transform var(--normal), box-shadow var(--normal);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 280px;
+  transform: translateZ(0);
+}
+
+.tool-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-hover);
+}
+
+/* ---------------------------------------------
+    CARD ICONS - IMAGE SETUP
+--------------------------------------------- */
+
+/* Card Icon Container (Parent for layout) */
+.card-icon-container {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: var(--spacing-sm);
+}
+
+/* Default Icon Style (Base properties for all icons) */
+.card-icon {
+  font-size: 2rem;
+  color: var(--primary-color); 
+  background: transparent;      
+  border-radius: 10px;
+  padding: var(--spacing-md);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform var(--normal);
+  
+  /* Fixed size for image containers */
+  display: block; 
+  height: calc(2rem + 2 * var(--spacing-md)); 
+  width: calc(2rem + 2 * var(--spacing-md));
+  line-height: 1;
+}
+
+/* Class to apply for ALL cards using an image background */
+.image-background-icon {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: none; 
+  color: transparent; /* Hides the inner FaIcon */
+}
+
+/* ⚡ NoteVerse-Specific Image Background */
+.card-icon-noteverse {
+  background-image: url('../assets/nodeverse.png');
+}
+
+/* 🧠 ReviewHub-Specific Image Background */
+.card-icon-reviewhub {
+  background-image: url('../assets/reviewhub.png');
+}
+
+/* 🤝 CollabEDU-Specific Image Background */
+.card-icon-collabedu {
+  background-image: url('../assets/collabedu.png');
+}
+
+.tool-card:hover .card-icon {
+  transform: scale(1.06);
+}
+
+/* Titles & Subtitles */
+.card-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: var(--spacing-xs) 0 var(--spacing-sm);
+  letter-spacing: -0.3px;
+}
+
+.card-subtitle {
+  font-size: 1rem;
+  color: var(--text-light);
+  line-height: 1.6;
+  margin-bottom: var(--spacing-md);
+  flex-grow: 1;
+}
+
+/* Buttons */
+.card-button {
+  border: none;
+  font-weight: 600;
+  padding: 14px 25px;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: var(--normal);
+}
+
+/* Gradient Buttons */
+.btn-noteverse {
+  background: linear-gradient(135deg, #2ecc71, #27ae60);
+  color: white;
+}
+
+.btn-noteverse:hover {
+  background: linear-gradient(135deg, #27ae60, #1e8449);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(39, 174, 96, 0.4);
+}
+
+.btn-reviewhub {
+  background: linear-gradient(135deg, #f39c12, #e67e22);
+  color: white;
+}
+
+.btn-reviewhub:hover {
+  background: linear-gradient(135deg, #e67e22, #d35400);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(243, 156, 18, 0.4);
+}
+
+.btn-collabedu {
+  background: linear-gradient(135deg, #3498db, #2980b9);
+  color: white;
+}
+
+.btn-collabedu:hover {
+  background: linear-gradient(135deg, #2980b9, #206da4);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(52, 152, 219, 0.4);
+}
+
+.google-login-btn {
+  padding: 8px 14px;
+  background: #4285F4;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 12px;
+}
+
+.user-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.logout-btn {
+  padding: 6px 10px;
+  background: #d9534f;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 12px;
+}
+
+/* ---------------------------------------------
+    6. Responsive
+--------------------------------------------- */
+
+
+@media (max-width: 768px) {
+  .main-content {
+    padding: 20px;
+  }
+
+  .welcome-message {
+    font-size: 2.4rem;
+  }
+
+  .tools-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .tool-card {
+    padding: 22px;
+  }
+
+  .navbar-inner {
+    padding: 12px 18px;
+  }
+
+  .navbar {
+    height: 50px;
+    padding: 0 12px;
+  }
+  
+  .logo {
+    font-size: 1rem;
+  }
+  
+  .logo-icon {
+    font-size: 1rem;
+  }
+  
+  .user-initials {
+    width: 26px;
+    height: 26px;
+    font-size: 0.75rem;
+  }
+  
+  .icon {
+    font-size: 0.9rem;
+    padding: 2px;
+  }
+}

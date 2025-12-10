@@ -1,0 +1,863 @@
+/* =========================================================
+ * FINAL INTEGRATED CSS - UPDATED CREATE BUTTON COLOR
+ * ========================================================= */
+
+/* ======================================
+ * 1. GLOBAL PAGE STYLE & VARIABLES
+ * ====================================== */
+ :root {
+  /* Primary Color: Adopting Google-style blue for the UI look */
+  --primary-blue: #1a73e8;
+  --primary-hover: #1565c0;
+  
+  /* Other Global Colors */
+  --secondary-green: #2ecc71;
+  --green-hover: #27ae60;
+  
+  /* Background & Card Styles */
+  --background-light: #f9f9ff; /* Lightest background color */
+  --card-background: #ffffff;
+  --border-color: #e8e8e8; /* Lighter, cleaner border */
+  --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.08); /* Standardized card shadow */
+
+  /* Text Colors for Screenshot Match */
+  --text-dark: #202124;
+  --text-grey: #5f6368;
+
+  /* Task Card Colors (Retained original values) */
+  --task-completed: #2ecc71;
+  --task-due-soon: #ffc107;
+  --task-default: #1a73e8; 
+  --task-background: #f8f9fc;
+  
+  /* File Upload Colors (Retained) */
+  --file-background: #f0f4ff;
+  --file-border-color: #a0c3ff;
+}
+
+.collabedu-page {
+  width: 100%;
+  min-height: 100vh;
+  padding: 30px 20px;
+  box-sizing: border-box;
+  /* Use the subtle gradient/light background for the screenshot match */
+  background: linear-gradient(to bottom, #ffffff 0%, var(--background-light) 100%);
+  font-family: 'Inter', sans-serif;
+}
+
+/* Back button: Clean, white, bordered style */
+.back-btn {
+  background: var(--card-background);
+  color: var(--text-dark);
+  padding: 8px 15px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 15px;
+  font-size: 1em;
+  font-weight: 500;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+.back-btn:hover {
+  background: #fcfcfc;
+}
+
+/* Headings (Cleaned up to match general UI) */
+h2 {
+  font-size: 1.6em; 
+  font-weight: 500;
+  color: var(--text-dark);
+  margin-bottom: 15px;
+  text-align: left; 
+}
+h3 {
+  font-size: 1.1em;
+  font-weight: 500;
+  color: var(--text-dark);
+}
+h4 {
+  font-size: 1em;
+  font-weight: 600;
+  color: var(--primary-blue);
+  margin-top: 0;
+  margin-bottom: 15px;
+  padding-bottom: 5px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+/* Inputs/Buttons Base */
+input[type="text"], input[type="email"], input[type="file"], .chat-input-area input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+input:focus, .chat-input-area input:focus {
+  border-color: var(--primary-blue);
+  outline: none;
+}
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 15px;
+  font-weight: 600;
+  transition: background 0.2s, transform 0.1s;
+  font-size: 0.9em;
+  color: white;
+}
+button:active {
+  transform: translateY(1px);
+}
+
+
+/* ======================================
+* 2. GROUP LIST VIEW (TWO-COLUMN LAYOUT)
+* ====================================== */
+
+.groups-container {
+  max-width: 900px;
+  margin: 30px auto; 
+  padding: 0; 
+}
+
+/* Main Grid for 1:2 layout */
+.main-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr; 
+  gap: 50px; 
+  align-items: start;
+}
+
+/* --- LEFT COLUMN: PROFILE CARD --- */
+.profile-card {
+  background: var(--card-background); 
+  padding: 40px 25px; 
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12); 
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px; 
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.profile-card:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.user-initial-avatar {
+  width: 120px; 
+  height: 120px;
+  border-radius: 50%;
+  background: #e8f0fe; 
+  color: #5d3f6a; /* Adjusted to better match the purple in the image */
+  font-size: 4em; 
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 5px; 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border: 4px solid #5d3f6a; /* Adjusted to better match the purple in the image */
+  transition: border-color 0.3s;
+}
+.user-initial-avatar:hover {
+  border-color: var(--secondary-green); 
+}
+
+/* Container for text details */
+.user-details {
+  display: flex;
+  flex-direction: column;
+  gap: 5px; /* Reduced gap for tighter stacking */
+}
+
+/* User Name: Primary element, large and bold */
+.user-details .user-name {
+  font-size: 2.1em; /* Increased size significantly */
+  font-weight: 700; 
+  color: var(--text-dark);
+  margin-bottom: 5px; /* Added small buffer below the name */
+}
+
+/* User Email: Secondary element, clearer text grey */
+.user-details .user-email {
+  font-size: 1.0em; /* Standard size */
+  font-weight: 400; /* Regular weight */
+  color: var(--text-grey); 
+  margin: 5px 0 2px 0; /* Tightened top/bottom margin */
+}
+
+/* User UID: Tertiary element, smallest text, lighter grey */
+.user-details .user-uid {
+  font-size: 0.9em; /* Smallest size */
+  font-weight: 300; /* Light weight */
+  color: #999; /* Lighter grey for subtle metadata */
+  margin: 2px 0 0 0; 
+}
+
+/* --- RIGHT COLUMN: CREATE GROUP & GROUP LIST --- */
+.right-column-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+/* Main 'Create Group' button (Large blue button) */
+.create-group-btn {
+  width: 100%;
+  padding: 16px;
+  border-radius: 12px;
+  background: var(--primary-blue);
+  color: #ffffff;
+  font-size: 1.15em;
+  font-weight: 700;
+  box-shadow: 0 6px 15px rgba(26, 115, 232, 0.3);
+  margin-bottom: 20px;
+}
+
+.create-group-btn:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+}
+
+.group-list-title {
+  font-size: 1.8em;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 20px; 
+  text-align: left;
+  width: 100%;
+}
+
+/* Container for the inline input and small create button */
+.create-group-controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px; /* Space between input/button and list */
+  width: 100%;
+  align-items: center;
+}
+
+/* Small input field for new group name */
+.create-group-controls input[type="text"] {
+  flex-grow: 1;
+  padding: 12px;
+}
+
+/* Small "Create" button (UPDATED COLOR) */
+.create-group-controls button {
+  /* Override generic button styles for inline use */
+  padding: 12px 25px;
+  font-size: 1em;
+  font-weight: 700;
+  background: var(--primary-blue); /* Apply primary blue color */
+  color: white;
+  flex-shrink: 0;
+}
+.create-group-controls button:hover {
+  background: var(--primary-hover);
+}
+
+
+.groups-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; 
+  width: 100%; 
+}
+
+/* Group Card Styles (Screenshot specific) */
+.group-card-screenshot {
+  background: var(--card-background);
+  padding: 18px 22px;
+  border-radius: 12px;
+  cursor: pointer;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: all 0.25s ease;
+}
+
+/* Selected Card Highlight */
+.groups-list > .group-card-screenshot:first-child {
+  border: 1px solid var(--primary-blue);
+  box-shadow: 0 6px 20px rgba(26, 115, 232, 0.1);
+}
+
+.group-card-screenshot:hover {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.group-card-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.group-members-icon {
+  font-size: 1.6em;
+  color: var(--text-grey); 
+  margin-right: 15px;
+}
+
+.group-details-text {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+}
+
+.group-card-name {
+  font-size: 1.15em;
+  font-weight: 500; 
+  color: var(--text-dark);
+}
+
+.group-card-count {
+  font-size: 0.9em;
+  color: var(--text-grey);
+}
+
+.group-card-menu {
+  font-size: 1.5em; 
+  color: var(--text-grey);
+  margin-left: 10px;
+}
+
+
+/* ======================================
+* 3. DASHBOARD/PANEL STYLES
+* ====================================== */
+
+.group-dashboard-layout {
+  margin-top: 15px;
+  grid-template-columns: 250px 1fr 320px;
+  gap: 20px;
+  max-height: calc(100vh - 120px); 
+  min-height: calc(100vh - 120px); 
+  align-items: stretch;
+  display: grid; 
+}
+
+/* Panel Base Style */
+.group-left-panel, 
+.group-middle-panel, 
+.group-right-panel {
+  background: var(--card-background);
+  padding: 15px; 
+  border-radius: 16px;
+  box-shadow: var(--shadow-light);
+  display: flex; 
+  flex-direction: column;
+  overflow: hidden; 
+}
+
+/* LEFT PANEL (Members, Invite & Info) */
+.group-left-panel {
+  gap: 15px; 
+  height: calc(100vh - 120px); 
+  max-height: calc(100vh - 120px);
+  overflow-y: auto; 
+  position: relative; 
+}
+
+.member-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; 
+}
+
+.member-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0; 
+  font-size: 0.95em;
+  border-radius: 6px;
+  transition: background 0.1s;
+}
+.member-item:hover {
+  background: #f9f9f9;
+}
+
+.member-avatar {
+  width: 36px; 
+  height: 36px;
+  background: var(--file-background); 
+  border-radius: 50%;
+  border: 2px solid var(--primary-blue);
+  display: block;
+  object-fit: cover; 
+}
+
+.member-name {
+  font-weight: 600;
+  color: #333;
+}
+
+.invite-section {
+  margin-top: auto; 
+  flex-shrink: 0; 
+  padding-top: 15px;
+  border-top: 1px solid #eee; 
+  width: 100%;
+}
+
+.invite-section button {
+  background: var(--primary-blue);
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 121, 255, 0.3); 
+}
+.invite-section button:hover {
+  background: var(--primary-hover);
+  box-shadow: 0 4px 8px rgba(0, 121, 255, 0.5);
+}
+
+
+/* MODAL POP-UP STYLES */
+.invite-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6); 
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.invite-panel-popup {
+  padding: 30px; 
+  padding-top: 50px; 
+  border-radius: 16px; 
+  box-shadow: 0 15px 35px rgba(0,0,0,0.3); 
+  max-width: 400px; 
+  gap: 20px;
+  position: relative; 
+}
+
+.invite-panel-popup h4 {
+  color: #1a1a1a; 
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.invite-panel-popup button {
+  background: var(--secondary-green);
+  margin-top: 10px;
+}
+.invite-panel-popup button:hover {
+  background: var(--green-hover);
+}
+
+.invite-panel-popup .close-btn {
+  position: absolute; 
+  top: 10px; 
+  right: 10px; 
+  display: block; 
+  width: 30px;
+  height: 30px;
+  line-height: 28px; 
+  text-align: center; 
+  background: none;
+  border: none;
+  font-size: 1.5em;
+  cursor: pointer;
+  color: #999;
+  z-index: 1001; 
+}
+.invite-panel-popup .close-btn:hover {
+  color: #333;
+}
+.invite-content-wrapper {
+  padding: 0; 
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%; 
+}
+.invite-panel-popup input,
+.invite-panel-popup button {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+
+/* MIDDLE PANEL (Tasks + File Upload) */
+
+.group-middle-panel {
+  height: calc(100vh - 120px); 
+  max-height: calc(100vh - 120px);
+  overflow-y: auto; 
+  gap: 30px; 
+}
+
+/* Tasks Section */
+.tasks-section h3 { 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: none;
+}
+.tasks-section button { 
+  background: var(--primary-blue); 
+  padding: 8px 15px;
+  border-radius: 8px;
+  font-size: 0.9em;
+}
+.tasks-section button:hover {
+  background: var(--primary-hover);
+}
+.tasks-list-container { 
+  display: flex;
+  flex-direction: column;
+  gap: 15px; 
+  margin-top: 10px;
+}
+.tasks-section > p {
+  color: #6c757d;
+  font-style: italic;
+  margin-top: 10px;
+}
+
+/* Task Card Style */
+.task-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  background: var(--task-background);
+  padding: 15px; 
+  border-radius: 10px; 
+  border-left: 6px solid var(--task-default); 
+  box-shadow: 0 2px 5px rgba(0,0,0,0.08); 
+  transition: transform 0.1s;
+}
+.task-card:hover {
+  transform: translateY(-1px);
+}
+
+.task-card.completed {
+  border-left-color: var(--task-completed);
+  background: #e6f6e6; 
+}
+.task-card.due-soon {
+  border-left-color: var(--task-due-soon);
+  background: #fff8e1; 
+}
+
+.task-card h4 {
+  margin: 0;
+  font-size: 1.1em; 
+  font-weight: 700;
+  color: #333; 
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.task-card p {
+  margin: 0;
+  font-size: 0.9em;
+  color: #6c757d;
+}
+
+.task-card .task-action-btn { 
+  margin-top: 10px;
+  padding: 6px 12px;
+  font-size: 0.85em;
+  background: var(--secondary-green); 
+  color: white;
+  border-radius: 6px;
+}
+.task-card .task-action-btn:hover {
+  background: var(--green-hover);
+}
+
+.task-card.completed .task-action-btn {
+  background: #e0e0e0; 
+  color: #666;
+}
+.task-card.completed .task-action-btn:hover {
+  background: #ccc;
+}
+
+
+/* File Upload Section */
+.file-upload-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; 
+  padding: 20px;
+  border: 2px solid var(--file-border-color); 
+  border-radius: 12px;
+  background: var(--file-background); 
+  text-align: center;
+}
+
+.file-upload-controls {
+  display: flex;
+  justify-content: center;
+  gap: 15px; 
+  align-items: center;
+}
+
+.file-upload-section input[type="file"] {
+  display: none; 
+}
+
+.file-upload-section label {
+  background: var(--card-background); 
+  color: var(--primary-blue); 
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  border: 1px solid var(--primary-blue);
+}
+.file-upload-section label:hover {
+  background: #eaf2ff;
+}
+
+.file-upload-section button {
+  background: var(--primary-blue);
+  padding: 10px 18px;
+  margin-top: 0;
+  color: white;
+}
+.file-upload-section button:hover {
+  background: var(--primary-hover);
+}
+
+.uploaded-files-list {
+  text-align: left;
+  margin-top: 10px;
+}
+.uploaded-files-list h5 {
+  font-weight: 600;
+  margin: 5px 0;
+  color: #333;
+  font-size: 0.95em;
+}
+.uploaded-files-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.uploaded-files-list li {
+  padding: 3px 0;
+}
+.uploaded-files-list a {
+  color: var(--primary-blue);
+  text-decoration: none;
+  font-size: 0.9em;
+  display: block;
+  padding: 4px 0;
+  border-bottom: 1px dashed #eee;
+}
+.uploaded-files-list a:hover {
+  text-decoration: underline;
+}
+
+
+/* RIGHT PANEL (CHAT) */
+.group-right-panel {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 120px); 
+  max-height: calc(100vh - 120px);
+  justify-content: flex-start;
+  box-sizing: border-box;
+  background: var(--card-background);
+  padding: 10px; 
+  border-radius: 16px;
+  box-shadow: var(--shadow-light);
+}
+
+.chat-section {
+  display: flex;
+  flex-direction: column;
+  height: 100%; 
+  box-sizing: border-box;
+}
+
+.chat-box {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; 
+  border: 1px solid var(--border-color); 
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--card-background);
+  height: 100%; 
+  min-height: 0; 
+}
+
+.chat-messages {
+  flex: 1; 
+  padding: 15px; 
+  overflow-y: auto;
+  min-height: 0;
+  background: #eef1f6; 
+  scroll-behavior: smooth;
+}
+
+.chat-message {
+  margin-bottom: 12px; 
+  padding: 10px 15px;
+  border-radius: 15px; 
+  max-width: 80%; 
+  line-height: 1.5;
+  font-size: 0.95em;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1); 
+}
+
+.message-other {
+  background: var(--card-background); 
+  margin-right: auto;
+  border-top-left-radius: 4px; 
+  text-align: left;
+}
+
+.message-self {
+  background: var(--primary-blue); 
+  color: white;
+  margin-left: auto;
+  text-align: left; 
+  border-top-right-radius: 4px; 
+}
+
+.chat-message strong {
+  font-weight: 700;
+  display: block;
+  margin-bottom: 3px;
+  font-size: 0.85em;
+  color: #555; 
+}
+.message-self strong {
+  color: #e0f0ff; 
+}
+
+
+.chat-input-area {
+  display: flex;
+  gap: 10px;
+  padding: 5px 10px;
+  border-top: 1px solid #ddd;
+  background: var(--card-background);
+  flex-shrink: 0;
+  align-items: center; 
+}
+
+.chat-input-area input {
+  flex: 1;
+  padding: 8px; 
+  border-radius: 20px; 
+  border: 1px solid #ddd;
+  height: 38px; 
+}
+
+.chat-input-area button {
+  background: var(--primary-blue);
+  width: 40px; 
+  height: 40px;
+  padding: 0; 
+  border-radius: 50%; 
+  font-size: 1.2em; 
+  line-height: 40px; 
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+  transform: rotate(-45deg); 
+}
+
+.chat-input-area button:hover {
+  background: var(--primary-hover);
+}
+
+.chat-section h3 button {
+  background: var(--secondary-green);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 1em;
+  line-height: 1;
+}
+.chat-section h3 button:hover {
+  background: var(--green-hover);
+}
+
+.delete-group-btn {
+  background: #e74c3c;
+  color: white;
+  font-size: 0.9em;
+  padding: 8px 15px;
+  border-radius: 8px;
+  display: block;
+  width: 100%;
+}
+.delete-group-btn:hover {
+  background: #c0392b;
+}
+
+
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 1200px) {
+  .group-dashboard-layout {
+      grid-template-columns: 200px 1fr 300px;
+  }
+}
+@media (max-width: 1050px) {
+  .group-dashboard-layout {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 15px;
+      max-height: none; 
+  }
+  .group-right-panel,
+  .group-left-panel, 
+  .group-middle-panel {
+      height: 400px; 
+      max-height: 400px;
+  }
+  .group-right-panel {
+      grid-column: span 2;
+  }
+}
+
+@media (max-width: 760px) {
+  .group-dashboard-layout {
+      grid-template-columns: 1fr;
+  }
+  .group-left-panel,
+  .group-middle-panel,
+  .group-right-panel {
+      height: auto;
+      max-height: none;
+  }
+  .group-middle-panel {
+      order: 2; 
+      height: 350px; 
+      max-height: 350px;
+  }
+  .group-right-panel {
+      order: 1;
+  }
+  .group-right-panel,
+  .group-left-panel {
+      height: 350px; 
+      max-height: 350px; 
+  }
+  .chat-box {
+      height: 100%; 
+  }
+}

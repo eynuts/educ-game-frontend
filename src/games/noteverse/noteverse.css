@@ -1,0 +1,528 @@
+/* =========================================================
+   | NoteVerse Component Styles (noteverse.css) - FINAL VERSION: TITLE BOLD
+   ========================================================= */
+
+/* --- CSS Variables --- */
+:root {
+  --primary-color: #007bff; /* Blue */
+  --secondary-color: #2ecc71; /* Green */
+  --bg-main: #f4f7f9; /* Light Gray Background */
+  --bg-sidebar: #ffffff; /* White Sidebar */
+  --text-dark: #343a40;
+  --text-light: #6c757d;
+  --sidebar-width: 250px;
+  --left-column-width: 300px; /* New variable for the fixed-width upload/filter column */
+}
+
+/* --- Base layout & Global Elements --- */
+.noteverse-container {
+  min-height: 100vh;
+  background-color: var(--bg-main);
+  /* INCREASED padding-top for better separation from the top edge on desktop */
+  padding-top: 35px; 
+  transition: margin-left 0.3s ease-in-out;
+}
+
+/* -------------------------------------------
+   | 1. SIDEBAR STYLES (Menu Sidebar)
+   ------------------------------------------- */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--sidebar-width);
+  height: 100vh;
+  background-color: var(--bg-sidebar);
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  z-index: 100;
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(-100%); /* Start closed by default */
+}
+
+/* Show when open */
+.sidebar.open {
+  transform: translateX(0);
+}
+
+/* Dedicated close button inside the sidebar */
+.close-sidebar-btn {
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  padding: 15px 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #dc3545;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.2s;
+  border-bottom: 1px solid #e9ecef;
+  margin-bottom: 5px;
+}
+.close-sidebar-btn:hover {
+  background-color: rgba(220, 53, 69, 0.1);
+}
+
+.sidebar-item {
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  padding: 12px 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.2s;
+}
+
+.sidebar-item:hover {
+  background-color: var(--bg-main);
+  color: var(--primary-color);
+}
+
+.sidebar-item.active {
+  background-color: rgba(0, 123, 255, 0.1);
+  color: var(--primary-color);
+  border-left: 5px solid var(--primary-color);
+  padding-left: 20px;
+}
+/* RE-ADDED: Push the first main navigation item downward to clear the header/close button */
+.sidebar-item:first-of-type {
+  margin-top: 60px; 
+}
+
+
+/* -------------------------------------------
+   | 2. MAIN CONTENT OFFSET & HEADER SPACING
+   ------------------------------------------- */
+.noteverse-header {
+    /* Increased padding-bottom for visual separation on desktop */
+    padding-bottom: 40px; 
+    /* Global Centering */
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    text-align: center;
+}
+
+.noteverse-header, .tab-content {
+  margin-left: 0; /* No offset because sidebar starts closed */
+  padding-right: 40px; 
+  padding-left: 20px; 
+  transition: margin-left 0.3s ease-in-out; 
+}
+
+/* When sidebar is open, push content */
+.noteverse-container.sidebar-open .noteverse-header,
+.noteverse-container.sidebar-open .tab-content {
+  margin-left: var(--sidebar-width);
+  /* RE-ALIGN to the left when the permanent left sidebar is closed and the menu sidebar is open */
+  align-items: flex-start; 
+  text-align: left;
+}
+
+/* -------------------------------------------
+   | 3. BURGER BUTTON
+   ------------------------------------------- */
+.burger-btn {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  z-index: 101; 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.2s;
+}
+
+.burger-btn:hover {
+  background-color: #0056b3;
+}
+
+/* -------------------------------------------
+   | 4. NOTES TAB LAYOUT (Desktop & Mobile)
+   ------------------------------------------- */
+
+/* NEW DESKTOP LAYOUT (Two-Column Grid) */
+@media (min-width: 901px) {
+  .notes-tab {
+    display: grid;
+    /* Left column is fixed width, right column takes remaining space */
+    grid-template-columns: var(--left-column-width) 1fr; 
+    gap: 30px;
+  }
+  
+  .upload-sidebar {
+    /* Sticky position for the left column (Upload/Filter) */
+    position: sticky;
+    /* INCREASED from 80px to 95px for more clearance from the large header */
+    top: 95px; 
+    height: fit-content; 
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .feed-area {
+    /* Main content flow */
+    grid-column: 2 / 3;
+  }
+
+  .close-sidebar-btn {
+      display: none; 
+  }
+  
+  /* Reset header alignment to global center */
+  .noteverse-header {
+      align-items: center; 
+      text-align: center; 
+  }
+}
+
+/* MOBILE LAYOUT */
+@media (max-width: 900px) {
+  /* Mobile content */
+  .noteverse-header, .tab-content {
+    margin-left: 0; 
+    padding-top: 70px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  
+  .noteverse-container {
+    padding-top: 0;
+  }
+
+  /* Mobile sidebar */
+  .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  /* Close button always visible on mobile */
+  .close-sidebar-btn {
+    display: flex;
+  }
+
+  /* Burger visible */
+  .burger-btn {
+    display: block;
+  }
+
+  /* Notes tab layout: single column */
+  .notes-tab { 
+    display: flex; 
+    flex-direction: column;
+    gap: 20px; 
+  }
+  
+  /* Content stacking */
+  .upload-sidebar, .feed-area {
+    width: 100%;
+    position: static; /* Remove sticky for mobile */
+  }
+  
+  /* Post Card on Mobile */
+  .post-card { 
+    flex-direction: column; 
+    align-items: flex-start; 
+  }
+  
+  .post-info { 
+    width: 100%; 
+    margin-bottom: 10px; 
+    padding-right: 0;
+  }
+  
+  .post-actions { 
+    margin-top: 5px; 
+    width: 100%; 
+    justify-content: space-around; 
+    gap: 5px;
+  }
+  
+  .post-actions button {
+    flex: 1;
+    font-size: 0.9rem;
+    padding: 8px 0;
+    justify-content: center;
+  }
+}
+
+
+/* -----------------------------
+   | 5. OTHER STYLES (CARDS, BUTTONS, POSTS) 
+   ----------------------------- */
+.card-panel {
+  background: var(--bg-sidebar);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.upload-section h4, .filter-panel h4 {
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.upload-section input[type="text"],
+.upload-section textarea,
+.filter-panel select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: var(--text-dark);
+  background-color: #fff;
+  transition: border-color 0.15s;
+}
+
+/* --- FILE INPUT STYLING FIX --- */
+
+/* Container for the file input logic */
+.file-input-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px; /* Add spacing below the file selection area */
+}
+
+/* Visually hide the default file input text field but keep it functional */
+.upload-section input[type="file"] {
+    display: none; 
+}
+
+/* Style for the visible "Choose File" button/label */
+.upload-section label[for^="file-upload"] {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.upload-section label[for^="file-upload"]:hover { 
+    background-color: #0056b3; 
+}
+
+/* Style for displaying the chosen file name */
+.file-name-display {
+    color: var(--text-dark);
+    font-size: 0.95rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex-grow: 1;
+}
+
+/* --- END FILE INPUT STYLING --- */
+
+
+.upload-btn {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.upload-btn:hover { background-color: #0056b3; }
+.upload-btn:disabled { background-color: #ccc; cursor: not-allowed; }
+
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 15px;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.search-container input {
+  flex-grow: 1;
+  border: none;
+  background: none;
+  font-size: 1rem;
+  padding: 0;
+  color: var(--text-dark);
+}
+
+.posts-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  /* NEW: Add vertical gap between the search bar and the first post */
+  margin-top: 20px; 
+}
+
+/* MODIFIED: Post Card layout for horizontal actions (bottom right) */
+.post-card {
+  background: #fff;
+  padding: 18px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column; 
+  align-items: flex-start;
+  border-left: 6px solid var(--primary-color);
+  transition: all 0.3s;
+}
+
+.post-card:hover {
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  transform: translateY(-2px);
+}
+
+.post-info {
+    width: 100%;
+    margin-bottom: 10px;
+    text-align: left; /* ENSURE TEXT IS LEFT-ALIGNED */
+}
+
+/* NEW: Make the post title bold */
+.post-info h4 {
+    text-align: left;
+    margin-top: 0;
+    font-weight: 700; /* Make title bold */
+}
+
+.post-info p {
+    /* Ensure all paragraph text is left aligned */
+    text-align: left;
+}
+
+
+.post-actions {
+    width: 100%; 
+    display: flex;
+    justify-content: flex-end; /* Align actions to the right */
+    gap: 10px; 
+    margin-top: 5px; 
+}
+
+.post-actions button {
+  background: #f1f1f1;
+  border: none;
+  color: var(--text-dark);
+  padding: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: none; 
+}
+
+.like-count { 
+    display: inline;
+}
+
+.like-btn { color: var(--primary-color); }
+.like-btn:hover { background-color: rgba(0, 123, 255, 0.1); }
+.download-btn { color: var(--secondary-color); }
+.download-btn:hover { background-color: rgba(46, 204, 113, 0.1); }
+.bookmark-btn { font-size: 1.1rem; }
+.bookmark-btn .bookmarked { color: #ffc107; }
+
+.post-menu-container { position: relative; }
+
+.post-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  z-index: 20;
+  margin-top: 8px;
+  min-width: 180px;
+  overflow: hidden;
+}
+
+.post-menu .menu-item { justify-content: space-between; padding: 10px 15px; }
+.post-menu .menu-item:hover { background-color: #f7f7f7; }
+.post-menu .delete-item { color: #dc3545; }
+
+.pagination-row { display: flex; gap: 10px; justify-content: center; padding: 20px 0; }
+
+.pagination-row button {
+  background-color: #e9ecef;
+  color: var(--text-dark);
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: background-color 0.15s;
+}
+.pagination-row button.active-page {
+  background: var(--primary-color);
+  color: white;
+  font-weight: 700;
+}
+.pagination-row button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.filter-panel label { display: block; padding: 8px 0; font-size: 1rem; font-weight: 500; color: var(--text-dark); cursor: pointer; }
+
+.filter-panel input[type="checkbox"] {
+  margin-right: 10px;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--primary-color);
+  cursor: pointer;
+}
+
+.filter-panel select {
+  appearance: none; 
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="%236c757d" d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 35px;
+}

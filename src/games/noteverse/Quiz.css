@@ -1,0 +1,343 @@
+/* =========================================================
+   | Quiz Component Styles (Quiz.css) - MODERN UI
+   ========================================================= */
+
+   :root {
+    --primary: #4a90e2;       /* Soft Blue */
+    --primary-dark: #357abd;
+    --secondary: #f4f6f8;     /* Light Gray Background */
+    --text-main: #2c3e50;
+    --text-muted: #7f8c8d;
+    --success: #2ecc71;       /* Green */
+    --success-bg: #eafaf1;
+    --error: #e74c3c;         /* Red */
+    --error-bg: #fdedec;
+    --radius: 12px;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    --shadow-hover: 0 8px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* --- 1. Learning Tab Layout --- */
+  .learning-tab {
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  
+  .learning-tab-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr; /* Right side slightly wider for quiz content */
+      gap: 30px;
+      align-items: start;
+  }
+  
+  /* Common Card Panel Style */
+  .card-panel {
+      background: #ffffff;
+      border-radius: var(--radius);
+      padding: 25px;
+      box-shadow: var(--shadow);
+      border: 1px solid #eaeaea;
+  }
+  
+  /* --- 2. Selector Panel (Left) --- */
+  .learning-selector-panel h2 {
+      font-size: 1.4rem;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 25px;
+  }
+  
+  .star-icon {
+      color: #f1c40f;
+  }
+  
+  .section-separator {
+      margin-bottom: 25px;
+      padding-bottom: 25px;
+      border-bottom: 1px dashed #eee;
+  }
+  
+  .section-separator:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+  }
+  
+  .learning-selector-panel h4 {
+      margin-bottom: 12px;
+      color: var(--text-main);
+      font-weight: 700;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+  }
+  
+  /* File Selection Box */
+  .selection-display {
+      min-height: 60px;
+      background: var(--secondary);
+      padding: 15px;
+      border-radius: 8px;
+      border: 1px solid #e0e0e0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+  }
+  
+  .selection-display.placeholder-box {
+      border: 2px dashed #ccc;
+      background: #fafafa;
+  }
+  
+  .selected-file-name {
+      font-size: 0.95rem;
+      color: var(--text-main);
+      line-height: 1.4;
+  }
+  
+  .placeholder-text {
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      text-align: center;
+  }
+  
+  /* --- 3. Radio Buttons (Activity Type) --- */
+  .radio-group {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+  }
+  
+  .radio-label {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 15px;
+      border-radius: 8px;
+      border: 2px solid transparent;
+      background-color: var(--secondary);
+      color: var(--text-muted);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+  }
+  
+  .radio-label:hover {
+      background-color: #eef2f6;
+  }
+  
+  .radio-label.selected {
+      border-color: var(--primary);
+      background-color: #ebf5ff;
+      color: var(--primary);
+      box-shadow: 0 4px 10px rgba(74, 144, 226, 0.15);
+  }
+  
+  .radio-label input[type="radio"] {
+      display: none;
+  }
+  
+  /* Generate Button */
+  .generate-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      font-size: 1rem;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+  }
+  
+  .generate-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(53, 122, 189, 0.3);
+  }
+  
+  .generate-btn:disabled {
+      background: #bdc3c7;
+      cursor: not-allowed;
+      transform: none;
+  }
+  
+  /* --- 4. Quiz Content Display (Right) --- */
+  
+  /* Header Area */
+  .quiz-header {
+      border-bottom: 2px solid #f0f0f0;
+      padding-bottom: 15px;
+      margin-bottom: 20px;
+  }
+  
+  .generated-title {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+  }
+  
+  .live-score {
+      background: #fff9db; /* Light yellow bg */
+      padding: 5px 12px;
+      border-radius: 20px;
+      border: 1px solid #fae588;
+  }
+  
+  /* The Question */
+  .generated-content-display p {
+      font-size: 1.25rem;
+      color: var(--text-main);
+      line-height: 1.6;
+      margin-bottom: 25px;
+  }
+  
+  /* Quiz Options Container */
+  .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+  }
+  
+  /* Individual Option Button */
+  .quiz-option-btn {
+      width: 100%;
+      text-align: left;
+      padding: 18px 20px;
+      font-size: 1rem;
+      background-color: white;
+      border: 2px solid #eef0f2;
+      border-radius: 10px;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+      position: relative;
+      font-weight: 500;
+  }
+  
+  .quiz-option-btn:hover:not(.correct):not(.wrong):not(.faded) {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  }
+  
+  /* Correct Answer State */
+  .primary-btn.correct {
+      background-color: var(--success) !important;
+      border-color: var(--success) !important;
+      color: white !important;
+      font-weight: 700;
+  }
+  
+  /* Wrong Answer State */
+  .primary-btn.wrong {
+      background-color: var(--error) !important;
+      border-color: var(--error) !important;
+      color: white !important;
+      opacity: 0.9;
+  }
+  
+  /* Faded State (Unselected options) */
+  .primary-btn.faded {
+      opacity: 0.4;
+      cursor: default;
+      border-color: transparent;
+  }
+  
+  /* --- 5. Feedback Indicator --- */
+  .feedback-indicator {
+      margin-top: 25px;
+      padding: 15px;
+      border-radius: 8px;
+      animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  .text-correct {
+      background-color: var(--success-bg);
+      color: #1e8449;
+      border: 1px solid #abebc6;
+  }
+  
+  .text-wrong {
+      background-color: var(--error-bg);
+      color: #c0392b;
+      border: 1px solid #fadbd8;
+  }
+  
+  @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+  }
+  
+  /* --- 6. Utilities --- */
+  .spin {
+      animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+  }
+  
+  /* --- 7. Responsive --- */
+  @media (max-width: 900px) {
+      .learning-tab-grid {
+          grid-template-columns: 1fr;
+      }
+      
+      .learning-selector-panel, 
+      .generated-content-display {
+          width: 100%;
+      }
+  }
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+  }
+  
+  .modal-box {
+    background: white;
+    padding: 30px 40px;
+    border-radius: 15px;
+    text-align: center;
+    width: 320px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  }
+  .modal-back-btn {
+    background: #3498db;       /* Blue */
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s ease;
+    width: 100%;
+  }
+  
+  .modal-back-btn:hover {
+    background: #2980b9;
+  }
+  

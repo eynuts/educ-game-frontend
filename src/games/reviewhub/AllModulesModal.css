@@ -1,0 +1,79 @@
+/* --- All Modules Modal Styles --- */
+
+/* Inherit variables from reviewhub.css (assuming it's loaded globally or variables are defined) */
+:root {
+    /* Re-defining critical variables for clarity if this file is imported separately */
+    --color-primary: #1e88e5; 
+    --color-text-dark: #263238; 
+    --card-background: #ffffff;
+    --shadow-md: 0 5px 15px rgba(0,0,0,0.1), 0 1px 4px rgba(0,0,0,0.05);
+    --border-radius: 12px;
+}
+
+.all-modules-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(38, 50, 56, 0.8); /* Darker overlay to contrast with white cards */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1010; /* Ensure it's above the QuizModal if both are used */
+    padding: 1rem;
+}
+
+.all-modules-modal {
+    background-color: var(--card-background);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+    padding: 2rem;
+    width: 100%;
+    max-width: 1000px; /* Wider modal to show more cards */
+    max-height: 90vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.all-modules-modal h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin: 0 0 1.5rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+/* Modal Content Grid */
+.all-modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Reusing styling for topic cards from reviewhub.css (assuming it's a global import) 
+   If reviewhub.css is not globally imported, you would need to copy/paste the styles 
+   for .topic-card-modern, .card-header, .topic-progress-badge, etc. here. */
+
+.all-modules-modal .topic-card-modern {
+    /* Override description margin for cleaner look inside the modal */
+    margin-bottom: 0;
+}
+
+.all-modules-modal .close-btn {
+    align-self: flex-end; /* Align to the right */
+    background-color: #f4f4f4;
+    color: var(--color-text-dark);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+
+.all-modules-modal .close-btn:hover {
+    background-color: #e0e0e0;
+    text-decoration: none;
+}

@@ -1,0 +1,130 @@
+/* --- Quiz Modal Styles (New Section) --- */
+
+.quiz-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6); /* Dark semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it's on top of everything */
+    padding: 1.5rem;
+}
+
+.quiz-modal {
+    background-color: var(--card-background);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 600px; /* Standard modal width */
+    max-height: 90vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.quiz-modal h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin: 0;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #eee;
+}
+
+.quiz-question-text {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-text-dark);
+    margin: 0;
+}
+
+/* Options Container */
+.quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.quiz-option-btn {
+    text-align: left;
+    padding: 1rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #f7f7f7;
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--color-text-dark);
+    transition: all 0.2s ease;
+    width: 100%;
+}
+
+.quiz-option-btn:hover {
+    background-color: #e3f2fd;
+    border-color: var(--color-primary);
+}
+
+.quiz-option-btn.selected {
+    background-color: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Navigation Buttons */
+.next-btn {
+    background-color: var(--color-primary);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+    width: 100%;
+    margin-top: 0.5rem;
+}
+
+.next-btn:hover:not(.disabled-btn) {
+    background-color: #1976d2;
+    transform: translateY(-2px);
+}
+
+.next-btn.disabled-btn {
+    background-color: #bdbdbd; /* Light gray for disabled */
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-top: 0.5rem;
+}
+.close-btn:hover {
+    color: var(--color-text-dark);
+    text-decoration: underline;
+}
+
+/* Quiz Finished / Score */
+.score-text {
+    font-size: 1.5rem;
+    text-align: center;
+    color: var(--color-text-dark);
+    margin: 1rem 0;
+}
+.score-text strong {
+    font-size: 2rem;
+    color: var(--color-success);
+}

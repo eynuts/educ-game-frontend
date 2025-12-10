@@ -1,0 +1,203 @@
+/* --- Global Modal & Overlay Styles --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6); /* Darker, modern overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px); /* Subtle modern blur effect */
+  }
+  
+  .modal-box.flashcard-modal {
+    background-color: #ffffff;
+    border-radius: 16px; /* Soft rounded corners */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05); /* Modern, soft shadow */
+    width: 90%;
+    max-width: 600px; /* Optimal reading width */
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    animation: modal-appear 0.3s ease-out;
+  }
+  
+  @keyframes modal-appear {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* --- Header & Close Button --- */
+  .flashcard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .flashcard-title {
+    color: #333;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+  
+  .modal-close-btn {
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: color 0.2s, background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .modal-close-btn:hover {
+    color: #555;
+    background-color: #f0f0f0;
+  }
+  
+  /* --- Flashcard Container (Flip Logic) --- */
+  .flashcard-container {
+    /* Establish 3D space for children */
+    perspective: 1000px;
+    height: 300px; /* Fixed height for consistent layout */
+    cursor: pointer;
+    user-select: none;
+    outline: none; /* Remove default focus outline */
+  }
+  
+  .flashcard-box {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s; /* Smooth flip transition */
+    transform-style: preserve-3d; /* Key for 3D flip */
+  }
+  
+  .flashcard-container.flipped .flashcard-box {
+    transform: rotateY(180deg);
+  }
+  
+  /* --- Card Faces --- */
+  .flashcard-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden; /* Hide the back of the card face when not facing user */
+    border-radius: 12px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow on the card itself */
+    font-size: 1.2rem;
+    font-weight: 500;
+    line-height: 1.5;
+    color: #333;
+  }
+  
+  .flashcard-front {
+    background-color: #f8faff; /* Very light blue/off-white for the question */
+    border: 2px solid #e0e7ff;
+  }
+  
+  .flashcard-back {
+    background-color: #e6ffed; /* Light green/mint for the answer */
+    border: 2px solid #b3ffc7;
+    transform: rotateY(180deg); /* Position the back face */
+  }
+  
+  .face-label {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #999;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+  }
+  
+  .flip-indicator {
+      position: absolute;
+      bottom: 15px;
+      font-size: 0.9rem;
+      color: #666;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+  }
+  .flip-indicator svg {
+      animation: rotate-icon 2s infinite linear;
+  }
+  
+  @keyframes rotate-icon {
+      from {
+          transform: rotate(0deg);
+      }
+      to {
+          transform: rotate(360deg);
+      }
+  }
+  
+  /* --- Controls/Navigation --- */
+  .flashcard-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    gap: 15px;
+  }
+  
+  .flashcard-controls button {
+    background-color: #007aff; /* Primary blue button */
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s, transform 0.1s;
+  }
+  
+  .flashcard-controls button:hover:not(:disabled) {
+    background-color: #005bb5;
+    transform: translateY(-1px);
+  }
+  
+  .flashcard-controls button:disabled {
+    background-color: #e0e0e0;
+    color: #a0a0a0;
+    cursor: not-allowed;
+  }
+  
+  .flashcard-controls button svg {
+      font-size: 1.2rem;
+  }
+  
+  .card-counter {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #555;
+    min-width: 120px;
+    text-align: center;
+  }
