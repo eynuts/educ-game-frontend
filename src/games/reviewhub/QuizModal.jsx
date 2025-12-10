@@ -28,7 +28,7 @@ const QuizModal = ({ quizData, visible, onClose, onFinish, exam, topicId }) => {
         // Save to backend
         if (exam && topicId) {
           try {
-            await fetch("http://educ-game.onrender.com/api/reviewhub/save-score", {
+            await fetch("https://educ-game.onrender.com/api/reviewhub/save-score", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
