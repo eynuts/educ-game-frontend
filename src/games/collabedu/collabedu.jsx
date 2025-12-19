@@ -1,7 +1,6 @@
 // src/CollabEDU/CollabEDU.jsx
 import React, { useState, useEffect, useRef } from "react";
 import "./collabedu.css";
-import GroupVideoChat from "./GroupVideoChat"; // use standalone Agora video component
 import {
   syncUser,
   fetchGroups,
@@ -409,5 +408,6 @@ if (!currentGroup) {
     </div>
   );
 };
+
 
 export default CollabEDU;
