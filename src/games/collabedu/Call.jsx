@@ -10,56 +10,70 @@ const Call = ({ channelName, userId, onClose }) => {
   const [remoteUsers, setRemoteUsers] = useState([]);
   const localVideoRef = useRef();
   const [client] = useState(AgoraRTC.createClient({ mode: "rtc", codec: "vp8" }));
-  const [localTracks, setLocalTracks] = useState([]);
+  const localTracksRef = useRef([]);
 
   useEffect(() => {
     const init = async () => {
-      // Join channel
-      await client.join(APP_ID, channelName, null, userId);
+      try {
+        // Join channel
+        await client.join(APP_ID, channelName, null, userId);
 
-      // Create local tracks
-      const [microphoneTrack, cameraTrack] = await AgoraRTC.createMicrophoneAndCameraTracks();
-      setLocalTracks([microphoneTrack, cameraTrack]);
+        // Create local tracks
+        const [microphoneTrack, cameraTrack] = await AgoraRTC.createMicrophoneAndCameraTracks();
+        localTracksRef.current = [microphoneTrack, cameraTrack];
 
-      // Wait until video ref exists
-      const waitForRef = () =>
-        new Promise((resolve) => {
-          const interval = setInterval(() => {
-            if (localVideoRef.current) {
-              clearInterval(interval);
-              resolve();
-            }
-          }, 50);
+        // Play local video
+        cameraTrack.play(localVideoRef.current);
+
+        // Publish local tracks
+        await client.publish(localTracksRef.current);
+        setJoined(true);
+
+        // Handle remote users publishing tracks
+        client.on("user-published", async (user, mediaType) => {
+          await client.subscribe(user, mediaType);
+
+          if (mediaType === "video") {
+            // Wait until container exists
+            const interval = setInterval(() => {
+              const container = document.getElementById(`remote-${user.uid}`);
+              if (container) {
+                user.videoTrack.play(container);
+                clearInterval(interval);
+              }
+            }, 50);
+          }
+
+          if (mediaType === "audio") {
+            user.audioTrack.play();
+          }
+
+          // Add user to remote users if not already added
+          setRemoteUsers((prev) => prev.some(u => u.uid === user.uid) ? prev : [...prev, user]);
         });
-      await waitForRef();
 
-      cameraTrack.play(localVideoRef.current);
-      await client.publish([microphoneTrack, cameraTrack]);
-      setJoined(true);
-
-      // Handle remote users
-      client.on("user-published", async (user, mediaType) => {
-        await client.subscribe(user, mediaType);
-        if (mediaType === "video") {
-          const container = document.getElementById(`remote-${user.uid}`);
-          user.videoTrack.play(container);
-        }
-        if (mediaType === "audio") user.audioTrack.play();
-        setRemoteUsers((prev) => [...prev, user]);
-      });
-
-      client.on("user-unpublished", (user) => {
-        setRemoteUsers((prev) => prev.filter((u) => u.uid !== user.uid));
-      });
+        client.on("user-unpublished", (user) => {
+          setRemoteUsers((prev) => prev.filter((u) => u.uid !== user.uid));
+        });
+      } catch (err) {
+        console.error("Agora init failed:", err);
+        alert("Failed to join the call.");
+      }
     };
 
     init();
 
-    return () => {
-      localTracks.forEach((t) => t.close());
-      client.leave();
+    // Cleanup on unmount
+    return async () => {
+      try {
+        localTracksRef.current.forEach((track) => track.close());
+        await client.leave();
+        setRemoteUsers([]);
+      } catch (err) {
+        console.error("Error leaving call:", err);
+      }
     };
-  }, []);
+  }, [channelName, client, userId]);
 
   return (
     <div className="call-modal-overlay">
@@ -67,11 +81,13 @@ const Call = ({ channelName, userId, onClose }) => {
         <button className="close-btn" onClick={onClose}>×</button>
         <h3>Group Call</h3>
 
+        {/* Local video */}
         <div className="local-video-container">
           <h5>Your Video</h5>
           <div className="local-video" ref={localVideoRef}></div>
         </div>
 
+        {/* Remote videos */}
         <div className="remote-videos-container">
           <h5>Participants</h5>
           <div className="remote-videos">
@@ -82,6 +98,7 @@ const Call = ({ channelName, userId, onClose }) => {
           </div>
         </div>
 
+        {/* Leave button */}
         {joined && (
           <button className="leave-call-btn" onClick={onClose}>
             Leave Call
