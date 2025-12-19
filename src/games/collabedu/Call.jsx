@@ -29,48 +29,38 @@ const Call = ({ channelName, userId, onClose }) => {
         await client.publish(localTracksRef.current);
         setJoined(true);
 
-        // Subscribe to already-published remote users
-        for (const uid in client.remoteUsers) {
-          const user = client.remoteUsers[uid];
-          await client.subscribe(user, "video");
-          await client.subscribe(user, "audio");
+        // Helper to handle a new remote user
+        const handleUser = async (user, mediaType) => {
+          await client.subscribe(user, mediaType);
 
-          if (user.videoTrack) {
+          if (mediaType === "video" && user.videoTrack) {
             const container = document.getElementById(`remote-${user.uid}`);
             if (container) user.videoTrack.play(container);
           }
-          if (user.audioTrack) {
-            user.audioTrack.play();
-          }
 
-          setRemoteUsers((prev) => [...prev, user]);
-        }
-
-        // Handle remote users publishing tracks later
-        client.on("user-published", async (user, mediaType) => {
-          await client.subscribe(user, mediaType);
-
-          if (mediaType === "video") {
-            // Wait until container exists
-            const interval = setInterval(() => {
-              const container = document.getElementById(`remote-${user.uid}`);
-              if (container) {
-                user.videoTrack.play(container);
-                clearInterval(interval);
-              }
-            }, 50);
-          }
-
-          if (mediaType === "audio") {
+          if (mediaType === "audio" && user.audioTrack) {
             user.audioTrack.play();
           }
 
           setRemoteUsers((prev) => prev.some(u => u.uid === user.uid) ? prev : [...prev, user]);
+        };
+
+        // Handle already-joined users
+        Object.values(client.remoteUsers).forEach((user) => {
+          if (user.videoTrack || user.audioTrack) {
+            handleUser(user, "video");
+            handleUser(user, "audio");
+          }
         });
 
+        // Listen for new users
+        client.on("user-published", handleUser);
+
+        // Listen for users leaving
         client.on("user-unpublished", (user) => {
           setRemoteUsers((prev) => prev.filter((u) => u.uid !== user.uid));
         });
+
       } catch (err) {
         console.error("Agora init failed:", err);
         alert("Failed to join the call.");
@@ -79,7 +69,7 @@ const Call = ({ channelName, userId, onClose }) => {
 
     init();
 
-    // Cleanup on unmount
+    // Cleanup
     return async () => {
       try {
         localTracksRef.current.forEach((track) => track.close());
