@@ -29,7 +29,24 @@ const Call = ({ channelName, userId, onClose }) => {
         await client.publish(localTracksRef.current);
         setJoined(true);
 
-        // Handle remote users publishing tracks
+        // Subscribe to already-published remote users
+        for (const uid in client.remoteUsers) {
+          const user = client.remoteUsers[uid];
+          await client.subscribe(user, "video");
+          await client.subscribe(user, "audio");
+
+          if (user.videoTrack) {
+            const container = document.getElementById(`remote-${user.uid}`);
+            if (container) user.videoTrack.play(container);
+          }
+          if (user.audioTrack) {
+            user.audioTrack.play();
+          }
+
+          setRemoteUsers((prev) => [...prev, user]);
+        }
+
+        // Handle remote users publishing tracks later
         client.on("user-published", async (user, mediaType) => {
           await client.subscribe(user, mediaType);
 
@@ -48,7 +65,6 @@ const Call = ({ channelName, userId, onClose }) => {
             user.audioTrack.play();
           }
 
-          // Add user to remote users if not already added
           setRemoteUsers((prev) => prev.some(u => u.uid === user.uid) ? prev : [...prev, user]);
         });
 
