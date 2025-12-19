@@ -29,36 +29,43 @@ const Call = ({ channelName, userId, onClose }) => {
         await client.publish(localTracksRef.current);
         setJoined(true);
 
-        // Helper to handle a new remote user
-        const handleUser = async (user, mediaType) => {
-          await client.subscribe(user, mediaType);
-
-          if (mediaType === "video" && user.videoTrack) {
-            const container = document.getElementById(`remote-${user.uid}`);
-            if (container) user.videoTrack.play(container);
+        // Helper to play user tracks when container exists
+        const playUserTracks = (user) => {
+          if (user.videoTrack) {
+            const tryPlayVideo = () => {
+              const container = document.getElementById(`remote-${user.uid}`);
+              if (container) {
+                user.videoTrack.play(container);
+              } else {
+                setTimeout(tryPlayVideo, 50); // wait for DOM
+              }
+            };
+            tryPlayVideo();
           }
-
-          if (mediaType === "audio" && user.audioTrack) {
+          if (user.audioTrack) {
             user.audioTrack.play();
           }
+        };
 
+        // Subscribe & add remote user
+        const subscribeAndAddUser = async (user) => {
+          await client.subscribe(user, "video");
+          await client.subscribe(user, "audio");
+          playUserTracks(user);
           setRemoteUsers((prev) => prev.some(u => u.uid === user.uid) ? prev : [...prev, user]);
         };
 
-        // Handle already-joined users
-        Object.values(client.remoteUsers).forEach((user) => {
-          if (user.videoTrack || user.audioTrack) {
-            handleUser(user, "video");
-            handleUser(user, "audio");
-          }
+        // Subscribe to already-published remote users (late joiners)
+        Object.values(client.remoteUsers).forEach(user => {
+          subscribeAndAddUser(user);
         });
 
-        // Listen for new users
-        client.on("user-published", handleUser);
+        // Handle new users publishing
+        client.on("user-published", subscribeAndAddUser);
 
-        // Listen for users leaving
+        // Handle users leaving/unpublishing
         client.on("user-unpublished", (user) => {
-          setRemoteUsers((prev) => prev.filter((u) => u.uid !== user.uid));
+          setRemoteUsers((prev) => prev.filter(u => u.uid !== user.uid));
         });
 
       } catch (err) {
@@ -69,10 +76,10 @@ const Call = ({ channelName, userId, onClose }) => {
 
     init();
 
-    // Cleanup
+    // Cleanup on unmount
     return async () => {
       try {
-        localTracksRef.current.forEach((track) => track.close());
+        localTracksRef.current.forEach(track => track.close());
         await client.leave();
         setRemoteUsers([]);
       } catch (err) {
@@ -97,11 +104,11 @@ const Call = ({ channelName, userId, onClose }) => {
         <div className="remote-videos-container">
           <h5>Participants</h5>
           <div className="remote-videos">
-            {remoteUsers.length === 0 && <p>No one else in the call</p>}
             {remoteUsers.map((u) => (
               <div key={u.uid} id={`remote-${u.uid}`} className="remote-video"></div>
             ))}
           </div>
+          {remoteUsers.length === 0 && <p>Waiting for others to join...</p>}
         </div>
 
         {/* Leave button */}
